@@ -1,0 +1,99 @@
+{
+    "tables": {
+        "fact": {
+            "name": "tbl_flights",
+            "fields": [
+                {
+                    "field": "YEAR_DATE",
+                    "type": "categorical",
+                    "cast": "int"
+                },
+                {
+                    "field": "UNIQUE_CARRIER",
+                    "type": "categorical"
+                },
+                {
+                    "field": "ORIGIN",
+                    "type": "categorical"
+                },
+                {
+                    "field": "ORIGIN_STATE_ABR",
+                    "type": "categorical",
+                    "deriveFrom": "ORIGIN"
+                },
+                {
+                    "field": "DEST",
+                    "type": "categorical"
+                },
+                {
+                    "field": "DEST_STATE_ABR",
+                    "type": "categorical",
+                    "deriveFrom": "DEST"
+                },
+                {
+                    "field": "DEP_DELAY",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "TAXI_OUT",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "TAXI_IN",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "ARR_DELAY",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "AIR_TIME",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "DISTANCE",
+                    "type": "quantitative"
+                }
+            ]
+        },
+        "dimension": [
+            {
+                "name": "tbl_airports",
+                "columns": [
+                    "AIRPORT",
+                    "STATE"
+                ],
+                "mapping": [
+                    {
+                        "fromFields": [
+                            "ORIGIN",
+                            "ORIGIN_STATE_ABR"
+                        ],
+                        "fk": "ORIGIN_ID"
+                    },
+                    {
+                        "fromFields": [
+                            "DEST",
+                            "DEST_STATE_ABR"
+                        ],
+                        "fk": "DEST_ID"
+                    }
+                ]
+            },
+            {
+                "name": "tbl_carriers",
+                "columns": [
+                    "CARRIER"
+                ],
+                "mapping": [
+                    {
+                        "fromFields": [
+                            "UNIQUE_CARRIER"
+                        ],
+                        "fk": "UNIQUE_CARRIER_ID"
+                    }
+                ]
+            }
+        ]
+    }
+}

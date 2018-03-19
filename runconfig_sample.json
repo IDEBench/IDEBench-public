@@ -1,0 +1,10 @@
+{
+    "driver-names": ["sample"],
+    "settings-datasets": ["flights"],
+    "settings-workflows": ["test"],
+    "settings-sizes": ["500m"],
+    "settings-thinktimes": [1000],
+    "settings-time-requirements": [1000],
+    "settings-confidence-levels": [95],
+    "settings-normalized": false
+}

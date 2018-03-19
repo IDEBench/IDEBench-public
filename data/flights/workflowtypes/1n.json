@@ -1,0 +1,105 @@
+{
+    "nextAction": {
+        "values":[
+            "workflowgen.selectionaction.SelectionAction",
+            "workflowgen.filteraction.FilterAction",
+            "workflowgen.linkaction.LinkAction",
+            "workflowgen.vizaction.VizAction"
+        ]
+        ,
+        "pd": [
+            0.4,
+            0.0,
+            0.4,
+            0.2
+        ]
+    },
+    "linkType": [
+        {
+            "name": "1n",
+            "p": 1
+        }
+    ],
+    "numBinDimensionsPerViz": {
+        "values": [
+            1,
+            2
+        ],
+        "pd": [
+            0.65,
+            0.35
+        ]
+    },
+    "numFiltersPerViz": {
+        "values": [
+            1,
+            2,
+            3
+        ],
+        "pd": [
+            0.5,
+            0.25,
+            0.25
+        ]
+    },
+    "perBinAggregates":{
+        "values":[
+            "count",
+            "avg"
+        ],
+        "pd": [
+            0.8,
+            0.2
+        ]
+    },
+    "dimensions": [
+        {
+            "name": "YEAR_DATE",
+            "p": 10
+        },
+        {
+            "name": "UNIQUE_CARRIER",
+            "p": 10
+        },
+        {
+            "name": "ORIGIN",
+            "p": 2
+        },
+        {
+            "name": "ORIGIN_STATE_ABR",
+            "p": 10
+        },
+        {
+            "name": "DEST",
+            "p": 2
+        },
+        {
+            "name": "DEST_STATE_ABR",
+            "p": 10
+        },
+        {
+            "name": "DEP_DELAY",
+            "p": 10
+        },
+        {
+            "name": "TAXI_OUT",
+            "p": 10
+        },
+        {
+            "name": "TAXI_IN",
+            "p": 10
+        },
+        {
+            "name": "ARR_DELAY",
+            "p": 10
+        },
+        {
+            "name": "AIR_TIME",
+            "p": 10
+        },
+        {
+            "name": "DISTANCE",
+            "p": 10
+        }
+    ]
+}
