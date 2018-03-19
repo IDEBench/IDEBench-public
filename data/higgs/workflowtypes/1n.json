@@ -1,0 +1,173 @@
+{
+    "nextAction": {
+        "values":[
+            "workflowgen.selectionaction.SelectionAction",
+            "workflowgen.filteraction.FilterAction",
+            "workflowgen.linkaction.LinkAction",
+            "workflowgen.vizaction.VizAction"
+        ]
+        ,
+        "pd": [
+            0.4,
+            0.0,
+            0.4,
+            0.2
+        ]
+    },
+    "linkType": [
+        {
+            "name": "1n",
+            "p": 1
+        }
+    ],
+    "numBinDimensionsPerViz": {
+        "values": [
+            1,
+            2
+        ],
+        "pd": [
+            0.65,
+            0.35
+        ]
+    },
+    "numFiltersPerViz": {
+        "values": [
+            1,
+            2,
+            3
+        ],
+        "pd": [
+            0.5,
+            0.25,
+            0.25
+        ]
+    },
+    "perBinAggregates":{
+        "values":[
+            "count",
+            "avg"
+        ],
+        "pd": [
+            0.8,
+            0.2
+        ]
+    },
+    "dimensions": [
+        {
+            "name": "LABEL",
+            "p": 1
+        },
+        {
+            "name": "LEPTONPT",
+            "p": 1
+        },
+        {
+            "name": "LEPTONETA",
+            "p": 1
+        },
+        {
+            "name": "LEPTONPHI",
+            "p": 1
+        },
+        {
+            "name": "MISSINGENERGYMAGNITUDE",
+            "p": 1
+        },
+        {
+            "name": "MISSINGENERGYPHI",
+            "p": 1
+        },
+        {
+            "name": "JET1PT",
+            "p": 1
+        },
+        {
+            "name": "JET1ETA",
+            "p": 1
+        },
+        {
+            "name": "JET1PHI",
+            "p": 1
+        },
+        {
+            "name": "JET1BTAG",
+            "p": 1
+        },
+        {
+            "name": "JET2PT",
+            "p": 1
+        },
+        {
+            "name": "JET2ETA",
+            "p": 1
+        },
+        {
+            "name": "JET2PHI",
+            "p": 1
+        },
+        {
+            "name": "JET2BTAG",
+            "p": 1
+        },
+        {
+            "name": "JET3PT",
+            "p": 1
+        },
+        {
+            "name": "JET3ETA",
+            "p": 1
+        },
+        {
+            "name": "JET3PHI",
+            "p": 1
+        },
+        {
+            "name": "JET3BTAG",
+            "p": 1
+        },
+        {
+            "name": "JET4PT",
+            "p": 1
+        },
+        {
+            "name": "JET4ETA",
+            "p": 1
+        },
+        {
+            "name": "JET4PHI",
+            "p": 1
+        },
+        {
+            "name": "JET4BTAG",
+            "p": 1
+        },
+        {
+            "name": "M_JJ",
+            "p": 1
+        },
+        {
+            "name": "M_JJJ",
+            "p": 1
+        },
+        {
+            "name": "M_LV",
+            "p": 1
+        },
+        {
+            "name": "M_JLV",
+            "p": 1
+        },
+        {
+            "name": "M_BB",
+            "p": 1
+        },
+        {
+            "name": "M_WBB",
+            "p": 1
+        },
+        {
+            "name": "M_WWBB",
+            "p": 1
+        }
+    ]
+}

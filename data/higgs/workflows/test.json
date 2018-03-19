@@ -1,0 +1,145 @@
+{
+    "name": "generated",
+    "interactions": [
+        {
+            "name": "viz_0",
+            "binning": [
+                {
+                    "dimension": "JET2PHI",
+                    "width": 0.291603698027796
+                }
+            ],
+            "perBinAggregates": [
+                {
+                    "type": "count"
+                }
+            ]
+        },
+        {
+            "name": "viz_1",
+            "binning": [
+                {
+                    "dimension": "JET1PT",
+                    "width": 0.46832855977638616
+                },
+                {
+                    "dimension": "JET1ETA",
+                    "width": 0.19564606880845442
+                }
+            ],
+            "perBinAggregates": [
+                {
+                    "type": "count"
+                }
+            ]
+        },
+        {
+            "name": "viz_1",
+            "source": "viz_0"
+        },
+        {
+            "name": "viz_0",
+            "selection": "((JET2PHI >= -0.874811 and JET2PHI < -0.583207) or (JET2PHI >= 0.583207 and JET2PHI < 0.874811) or (JET2PHI >= 0.291604 and JET2PHI < 0.583207) or (JET2PHI >= 0.874811 and JET2PHI < 1.166415) or (JET2PHI >= -0.291604 and JET2PHI < 0.000000) or (JET2PHI >= -1.749622 and JET2PHI < -1.458018) or (JET2PHI >= 1.458018 and JET2PHI < 1.749622) or (JET2PHI >= 0.000000 and JET2PHI < 0.291604) or (JET2PHI >= -0.583207 and JET2PHI < -0.291604))"
+        },
+        {
+            "name": "viz_2",
+            "binning": [
+                {
+                    "dimension": "M_LV",
+                    "width": 0.3217085005753289
+                }
+            ],
+            "perBinAggregates": [
+                {
+                    "type": "avg",
+                    "dimension": "JET3BTAG"
+                }
+            ]
+        },
+        {
+            "name": "viz_0",
+            "selection": "((JET2PHI >= 0.583207 and JET2PHI < 0.874811) or (JET2PHI >= 1.458018 and JET2PHI < 1.749622) or (JET2PHI >= 0.000000 and JET2PHI < 0.291604) or (JET2PHI >= 0.874811 and JET2PHI < 1.166415) or (JET2PHI >= -0.291604 and JET2PHI < 0.000000) or (JET2PHI >= -0.583207 and JET2PHI < -0.291604) or (JET2PHI >= -0.874811 and JET2PHI < -0.583207) or (JET2PHI >= 1.166415 and JET2PHI < 1.458018) or (JET2PHI >= 0.291604 and JET2PHI < 0.583207) or (JET2PHI >= -1.749622 and JET2PHI < -1.458018))"
+        },
+        {
+            "name": "viz_2",
+            "source": "viz_0"
+        },
+        {
+            "name": "viz_1",
+            "source": "viz_0 and viz_2"
+        },
+        {
+            "name": "viz_0",
+            "selection": "((JET2PHI >= 0.291604 and JET2PHI < 0.583207) or (JET2PHI >= -1.749622 and JET2PHI < -1.458018) or (JET2PHI >= 0.583207 and JET2PHI < 0.874811) or (JET2PHI >= -0.583207 and JET2PHI < -0.291604) or (JET2PHI >= 0.874811 and JET2PHI < 1.166415) or (JET2PHI >= 1.458018 and JET2PHI < 1.749622) or (JET2PHI >= -1.166415 and JET2PHI < -0.874811) or (JET2PHI >= 1.166415 and JET2PHI < 1.458018))"
+        },
+        {
+            "name": "viz_2",
+            "selection": "((M_LV >= 2.895377 and M_LV < 3.217085))"
+        },
+        {
+            "name": "viz_0",
+            "selection": "((JET2PHI >= -1.749622 and JET2PHI < -1.458018) or (JET2PHI >= -0.583207 and JET2PHI < -0.291604) or (JET2PHI >= -0.291604 and JET2PHI < 0.000000) or (JET2PHI >= 1.166415 and JET2PHI < 1.458018) or (JET2PHI >= -1.166415 and JET2PHI < -0.874811) or (JET2PHI >= -1.458018 and JET2PHI < -1.166415) or (JET2PHI >= 0.583207 and JET2PHI < 0.874811) or (JET2PHI >= 0.291604 and JET2PHI < 0.583207) or (JET2PHI >= 0.000000 and JET2PHI < 0.291604))"
+        },
+        {
+            "name": "viz_2",
+            "selection": "((M_LV >= 2.573668 and M_LV < 2.895377) or (M_LV >= 3.538794 and M_LV < 3.860502) or (M_LV >= 1.930251 and M_LV < 2.251960))"
+        },
+        {
+            "name": "viz_2",
+            "selection": "((M_LV >= 1.930251 and M_LV < 2.251960) or (M_LV >= 0.321709 and M_LV < 0.643417) or (M_LV >= 2.895377 and M_LV < 3.217085) or (M_LV >= 1.608543 and M_LV < 1.930251) or (M_LV >= 3.217085 and M_LV < 3.538794) or (M_LV >= 3.538794 and M_LV < 3.860502) or (M_LV >= 1.286834 and M_LV < 1.608543) or (M_LV >= 0.643417 and M_LV < 0.965126) or (M_LV >= 0.965126 and M_LV < 1.286834))"
+        },
+        {
+            "name": "viz_3",
+            "binning": [
+                {
+                    "dimension": "LABEL",
+                    "width": 1
+                },
+                {
+                    "dimension": "M_JJJ",
+                    "width": 0.33849668543362876
+                }
+            ],
+            "perBinAggregates": [
+                {
+                    "type": "count"
+                }
+            ]
+        },
+        {
+            "name": "viz_3",
+            "source": "viz_0"
+        },
+        {
+            "name": "viz_2",
+            "source": "viz_3 and viz_0"
+        },
+        {
+            "name": "viz_0",
+            "selection": "((JET2PHI >= -0.291604 and JET2PHI < 0.000000) or (JET2PHI >= 1.166415 and JET2PHI < 1.458018) or (JET2PHI >= -1.749622 and JET2PHI < -1.458018) or (JET2PHI >= 0.291604 and JET2PHI < 0.583207))"
+        },
+        {
+            "name": "viz_3",
+            "selection": "((LABEL = '1.0')) and ((M_JJJ >= 3.384967 and M_JJJ < 3.723464) or (M_JJJ >= 2.030980 and M_JJJ < 2.369477) or (M_JJJ >= 2.707973 and M_JJJ < 3.046470) or (M_JJJ >= 1.353987 and M_JJJ < 1.692483) or (M_JJJ >= 3.723464 and M_JJJ < 4.061960))"
+        },
+        {
+            "name": "viz_1",
+            "source": "viz_0 and viz_3 and viz_2"
+        },
+        {
+            "name": "viz_4",
+            "binning": [
+                {
+                    "dimension": "JET2PHI",
+                    "width": 0.17314685938004518
+                }
+            ],
+            "perBinAggregates": [
+                {
+                    "type": "avg",
+                    "dimension": "M_JJ"
+                }
+            ]
+        }
+    ]
+}

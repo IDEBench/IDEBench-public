@@ -1,0 +1,126 @@
+{
+    "tables": {
+        "fact": {
+            "name": "tbl_records",
+            "fields": [
+                {
+                    "field": "LABEL",
+                    "type": "categorical",
+                    "cast": "int"
+                },
+                {
+                    "field": "LEPTONPT",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "LEPTONETA",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "LEPTONPHI",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "MISSINGENERGYMAGNITUDE",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "MISSINGENERGYPHI",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "JET1PT",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "JET1ETA",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "JET1PHI",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "JET1BTAG",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "JET2PT",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "JET2ETA",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "JET2PHI",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "JET2BTAG",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "JET3PT",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "JET3ETA",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "JET3PHI",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "JET3BTAG",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "JET4PT",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "JET4ETA",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "JET4PHI",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "JET4BTAG",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "M_JJ",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "M_JJJ",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "M_LV",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "M_JLV",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "M_BB",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "M_WBB",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "M_WWBB",
+                    "type": "quantitative"
+                }
+            ]
+        }
+    }
+}
