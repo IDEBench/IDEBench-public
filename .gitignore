@@ -7,17 +7,13 @@ __pycache__/
 
 _benchmark
 node_modules/
-results/
-_temp/
-data/flights/*
-data/higgs/*
+_temp/*
 
 _creation
 _idea
 flights.csv
 flights.csv
 output.csv
-reports/
 
 margin_errors
 
