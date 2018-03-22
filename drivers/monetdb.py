@@ -10,6 +10,9 @@ from common import util
 
 class IDEBenchDriver:
 
+    def init(self, options, schema, driver_arg):
+        pass
+
     def create_connection(self):
         connection = pymonetdb.connect(username="monetdb", password="monetdb", hostname="localhost", port=50000, database="demo")
         cursor = connection.cursor()

@@ -59,12 +59,16 @@ class IDEBench:
             if not self.options.settings_size:
                 print("Warning: No dataset size specified.")
 
+            if self.options.groundtruth or self.options.run:
+                self.setup()
+
             if self.options.groundtruth:
-            
+
                 self.options.think_time = 1
                 self.options.time_requirement = 999999
 
                 workflow_files = glob.glob("data/" + self.options.settings_dataset + "/workflows/*.json") 
+
                 for workflow_file in workflow_files:
                     self.options.settings_workflow = basename(workflow_file).split(".")[0]
                     self.run()
@@ -93,34 +97,43 @@ class IDEBench:
                                 for thinktime in config["settings-thinktimes"]:
                                     for time_requirement in config["settings-time-requirements"]:
                                         for confidence_level in config["settings-confidence-levels"]:
-                                            self.options.driver_name = driver_name
-                                            self.options.settings_dataset = dataset
-                                            self.options.settings_size = size
-                                            self.options.settings_workflow = workflow
-                                            self.options.settings_thinktime = thinktime
-                                            self.options.settings_time_requirement = time_requirement
-                                            self.options.settings_confidence_level = confidence_level
-                                            self.options.settings_normalized = config["settings-normalized"]
-                                            self.options.groundtruth = config["groundtruth"] if "groundtruth" in config else False
-                                            self.options.run = config["run"] if "run" in config else True
-                                            self.options.evaluate = config["evaluate"] if "evaluate" in config else True
+                                            for driver_arg in config["driver-args"]:
+                                                self.options.driver_name = driver_name
+                                                self.options.settings_dataset = dataset
+                                                self.options.settings_size = size
+                                                self.options.settings_workflow = workflow
+                                                self.options.settings_thinktime = thinktime
+                                                self.options.settings_time_requirement = time_requirement
+                                                self.options.settings_confidence_level = confidence_level
+                                                self.options.settings_normalized = config["settings-normalized"]
+                                                self.options.groundtruth = config["groundtruth"] if "groundtruth" in config else False
+                                                self.options.run = config["run"] if "run" in config else True
+                                                self.options.evaluate = config["evaluate"] if "evaluate" in config else True
 
-                                            if self.options.run:
-                                                self.run()
+                                                self.setup(driver_arg)
 
-                                            if self.options.evaluate:
-                                                self.evaluate(self.get_config_hash())
+                                                if self.options.run:
+                                                    self.run()
 
+                                                if self.options.evaluate:
+                                                    self.evaluate(self.get_config_hash())
 
-    def run(self):
+    def setup(self, driver_arg = None):
         with open(self.get_schema_path()) as f:
             self.schema = Schema(json.load(f), self.options.settings_normalized)
-       
+
         module = importlib.import_module("drivers." +  self.options.driver_name)
         self.driver = getattr(module, "IDEBenchDriver")()
 
         try:
-            self.driver.clear_cache()
+            self.driver.init(self.options, self.schema, driver_arg)
+        except AttributeError:
+            pass
+
+    def run(self):
+
+        try:
+            self.driver.workflow_start()
         except AttributeError:
             pass
         

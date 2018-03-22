@@ -1,5 +1,6 @@
 {
     "driver-names": ["sample"],
+    "driver-args": [[100, "arg2"]],
     "settings-datasets": ["flights"],
     "settings-workflows": ["test"],
     "settings-sizes": ["500k"],

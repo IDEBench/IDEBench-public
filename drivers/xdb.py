@@ -9,6 +9,9 @@ from common import util
 
 class IDEBenchDriver:
 
+    def init(self, options, schema, driver_arg):
+        pass
+
     def workflow_start(self):
         print("workflow start")
         pass

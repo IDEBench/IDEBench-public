@@ -2,7 +2,13 @@ import time
 from common import util
 
 class IDEBenchDriver:
-    
+
+    def init(self, options, schema, driver_arg):
+        print("init")
+        print("table name: %s" %schema.get_fact_table_name())
+        print("driver arg0: %s" % driver_arg[0])
+        print("driver arg1: %s" % driver_arg[1])
+
     def workflow_start(self):
         print("workflow start")
         pass
