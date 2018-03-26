@@ -90,16 +90,23 @@ class IDEBench:
                     assure_path_exists("./data/%s/groundtruths" % d)
 
                 # TODO: create pairs instead
-                for driver_name in config["driver-names"]:
-                    for dataset in config["settings-datasets"]:
-                        for size in config["settings-sizes"]:
-                            for workflow in config["settings-workflows"]:
-                                for thinktime in config["settings-thinktimes"]:
-                                    for time_requirement in config["settings-time-requirements"]:
-                                        for confidence_level in config["settings-confidence-levels"]:
-                                            for driver_arg in config["driver-args"]:
+                for dataset in config["settings-datasets"]:
+                    self.options.settings_dataset = dataset
+                    
+                    for driver_name in config["driver-names"]:
+                        for driver_arg in config["driver-args"]:                        
+
+                            self.options.driver_name = driver_name
+                            self.setup(driver_arg)                        
+
+                            for size in config["settings-sizes"]:
+                                for workflow in config["settings-workflows"]:
+                                    for thinktime in config["settings-thinktimes"]:
+                                        for time_requirement in config["settings-time-requirements"]:
+                                            for confidence_level in config["settings-confidence-levels"]:
+                                            
                                                 self.options.driver_name = driver_name
-                                                self.options.settings_dataset = dataset
+                                                
                                                 self.options.settings_size = size
                                                 self.options.settings_workflow = workflow
                                                 self.options.settings_thinktime = thinktime
@@ -109,8 +116,6 @@ class IDEBench:
                                                 self.options.groundtruth = config["groundtruth"] if "groundtruth" in config else False
                                                 self.options.run = config["run"] if "run" in config else True
                                                 self.options.evaluate = config["evaluate"] if "evaluate" in config else True
-
-                                                self.setup(driver_arg)
 
                                                 if self.options.run:
                                                     self.run()
