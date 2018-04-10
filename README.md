@@ -6,7 +6,19 @@ For information on how to use IDEBench, checkout our Wiki: http://github.com/IDE
  </p>
 
 ## License
+
 MIT
+
+## Cite
+
+```
+@misc{1804.02593,
+Author = {Philipp Eichmann and Carsten Binnig and Tim Kraska and Emanuel Zgraggen},
+Title = {IDEBench: A Benchmark for Interactive Data Exploration},
+Year = {2018},
+Eprint = {arXiv:1804.02593},
+}
+```
 
 ## Publications
 
