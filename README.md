@@ -10,7 +10,7 @@ For information on how to use IDEBench, checkout our Wiki: http://github.com/IDE
 MIT
 
 ## Cite
-
+Users of IDEBench are requested to use the following BibTeX reference:
 ```
 @misc{1804.02593,
 Author = {Philipp Eichmann and Carsten Binnig and Tim Kraska and Emanuel Zgraggen},
