@@ -10,5 +10,8 @@ MIT
 
 ## Publications
 
+Eichmann, Philipp, Carsten Binnig, Tim Kraska and Emanuel Zgraggen. "IDEBench: A Benchmark for Interactive Data Exploration".
+[PDF](https://arxiv.org/abs/1804.02593)
+
 Eichmann, Philipp, Emanuel Zgraggen, Zheguang Zhao, Carsten Binnig, and Tim Kraska. "Towards a Benchmark for Interactive Data Exploration." IEEE Data Eng. Bull. 39, no. 4 (2016): 50-61.
 [PDF](http://cs.brown.edu/~peichmann/downloads/bide_vision.pdf)
