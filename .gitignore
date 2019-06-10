@@ -1,3 +1,10 @@
+.vscode
+_results
+.DS_Store
+reports
+groundtruths
+results
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -8,17 +15,6 @@ __pycache__/
 _benchmark
 node_modules/
 _temp/*
-
-_creation
-_idea
-flights.csv
-flights.csv
-output.csv
-
-margin_errors
-
-# C extensions
-*.so
 
 # Distribution / packaging
 .Python
@@ -48,20 +44,7 @@ wheels/
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
 
-# Translations
-*.mo
-*.pot
 
 # Django stuff:
 *.log
@@ -98,16 +81,3 @@ celerybeat-schedule
 env/
 venv/
 ENV/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/

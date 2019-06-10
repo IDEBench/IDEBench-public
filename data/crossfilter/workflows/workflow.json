@@ -1,0 +1,1126 @@
+{
+    "setup": [
+        {
+            "name": "DISTANCE",
+            "binning": [
+                {
+                    "dimension": "DISTANCE",
+                    "width": 200,
+                    "reference": 0
+                }
+            ],
+            "perBinAggregates": [
+                {
+                    "type": "count"
+                }
+            ],
+            "source": "ARR_TIME and DEP_TIME and DEP_DELAY and ARR_DELAY and AIR_TIME"
+        },
+        {
+            "name": "ARR_TIME",
+            "binning": [
+                {
+                    "dimension": "ARR_TIME",
+                    "width": 1,
+                    "reference": 0
+                }
+            ],
+            "perBinAggregates": [
+                {
+                    "type": "count"
+                }
+            ],
+            "source": "DISTANCE and DEP_TIME and DEP_DELAY and ARR_DELAY and AIR_TIME"
+        },
+        {
+            "name": "DEP_TIME",
+            "binning": [
+                {
+                    "dimension": "DEP_TIME",
+                    "width": 1,
+                    "reference": 0
+                }
+            ],
+            "perBinAggregates": [
+                {
+                    "type": "count"
+                }
+            ],
+            "source": "DISTANCE and ARR_TIME and DEP_DELAY and ARR_DELAY and AIR_TIME"
+        },
+        {
+            "name": "DEP_DELAY",
+            "binning": [
+                {
+                    "dimension": "DEP_DELAY",
+                    "width": 5,
+                    "reference": -20
+                }
+            ],
+            "perBinAggregates": [
+                {
+                    "type": "count"
+                }
+            ],
+            "source": "DISTANCE and ARR_TIME and DEP_TIME and ARR_DELAY and AIR_TIME"
+        },
+        {
+            "name": "ARR_DELAY",
+            "binning": [
+                {
+                    "dimension": "ARR_DELAY",
+                    "width": 5,
+                    "reference": -20
+                }
+            ],
+            "perBinAggregates": [
+                {
+                    "type": "count"
+                }
+            ],
+            "source": "DISTANCE and ARR_TIME and DEP_TIME and DEP_DELAY and AIR_TIME"
+        },
+        {
+            "name": "AIR_TIME",
+            "binning": [
+                {
+                    "dimension": "AIR_TIME",
+                    "width": 20,
+                    "reference": 0
+                }
+            ],
+            "perBinAggregates": [
+                {
+                    "type": "count"
+                }
+            ],
+            "source": "DISTANCE and ARR_TIME and DEP_TIME and DEP_DELAY and ARR_DELAY"
+        }
+    ],
+    "interactions": [
+        {
+            "name": "DISTANCE",
+            "time": 0,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 194.28571428571428",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 36,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 194.28571428571428",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 59,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 205.71428571428572",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 92,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 205.71428571428572",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 127,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 205.71428571428572",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 145,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 217.14285714285714",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 178,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 217.14285714285714",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 194,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 228.57142857142858",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 238,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 228.57142857142858",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 319,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 240",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 343,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 240",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 395,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 240",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 411,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 251.42857142857144",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 435,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 251.42857142857144",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 494,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 262.8571428571429",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 524,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 262.8571428571429",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 544,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 274.2857142857143",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 563,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 274.2857142857143",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 578,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 274.2857142857143",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 646,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 285.7142857142857",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 712,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 285.7142857142857",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 727,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 285.7142857142857",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 744,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 297.14285714285717",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 855,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 308.57142857142856",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 887,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 308.57142857142856",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 894,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 308.57142857142856",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 912,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 308.57142857142856",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 928,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 320",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1063,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 320",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1272,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 320",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1294,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 331.42857142857144",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1313,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 331.42857142857144",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1344,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 331.42857142857144",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1361,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 342.8571428571429",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1382,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 342.8571428571429",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1494,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 342.8571428571429",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1512,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 354.2857142857143",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1583,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 354.2857142857143",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1593,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 354.2857142857143",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1611,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 354.2857142857143",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1637,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 365.7142857142857",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1677,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 365.7142857142857",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1766,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 365.7142857142857",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1790,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 365.7142857142857",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1845,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 377.14285714285717",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1869,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 377.14285714285717",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1901,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 377.14285714285717",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1945,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 377.14285714285717",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1962,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 388.57142857142856",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 1989,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 388.57142857142856",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 2011,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 388.57142857142856",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 2464,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 388.57142857142856",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 13960,
+            "selection": "DISTANCE >= 205.71428571428567 AND DISTANCE < 399.99999999999994",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 13992,
+            "selection": "DISTANCE >= 251.4285714285714 AND DISTANCE < 445.71428571428567",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 14012,
+            "selection": "DISTANCE >= 274.2857142857143 AND DISTANCE < 468.57142857142856",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 14035,
+            "selection": "DISTANCE >= 308.57142857142856 AND DISTANCE < 502.85714285714283",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 14057,
+            "selection": "DISTANCE >= 319.99999999999994 AND DISTANCE < 514.2857142857142",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 14224,
+            "selection": "DISTANCE >= 331.4285714285714 AND DISTANCE < 525.7142857142857",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 14261,
+            "selection": "DISTANCE >= 342.85714285714283 AND DISTANCE < 537.1428571428571",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 14280,
+            "selection": "DISTANCE >= 354.2857142857143 AND DISTANCE < 548.5714285714286",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 14328,
+            "selection": "DISTANCE >= 365.71428571428567 AND DISTANCE < 560",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 14376,
+            "selection": "DISTANCE >= 377.1428571428571 AND DISTANCE < 571.4285714285713",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 14432,
+            "selection": "DISTANCE >= 388.57142857142856 AND DISTANCE < 582.8571428571429",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 14600,
+            "selection": "DISTANCE >= 399.99999999999994 AND DISTANCE < 594.2857142857142",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 15362,
+            "selection": "DISTANCE >= 388.57142857142856 AND DISTANCE < 582.8571428571429",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 15544,
+            "selection": "DISTANCE >= 377.1428571428571 AND DISTANCE < 571.4285714285713",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 15664,
+            "selection": "DISTANCE >= 365.71428571428567 AND DISTANCE < 560",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 15729,
+            "selection": "DISTANCE >= 354.2857142857143 AND DISTANCE < 548.5714285714286",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 15751,
+            "selection": "DISTANCE >= 342.85714285714283 AND DISTANCE < 537.1428571428571",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 15794,
+            "selection": "DISTANCE >= 331.4285714285714 AND DISTANCE < 525.7142857142857",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 15817,
+            "selection": "DISTANCE >= 308.57142857142856 AND DISTANCE < 502.85714285714283",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 15835,
+            "selection": "DISTANCE >= 297.1428571428571 AND DISTANCE < 491.4285714285714",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 15852,
+            "selection": "DISTANCE >= 285.71428571428567 AND DISTANCE < 479.99999999999994",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 15867,
+            "selection": "DISTANCE >= 274.2857142857143 AND DISTANCE < 468.57142857142856",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 15977,
+            "selection": "DISTANCE >= 262.85714285714283 AND DISTANCE < 457.1428571428571",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 16012,
+            "selection": "DISTANCE >= 251.4285714285714 AND DISTANCE < 445.71428571428567",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 16028,
+            "selection": "DISTANCE >= 239.99999999999994 AND DISTANCE < 434.2857142857142",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 16044,
+            "selection": "DISTANCE >= 228.57142857142856 AND DISTANCE < 422.85714285714283",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 16063,
+            "selection": "DISTANCE >= 217.1428571428571 AND DISTANCE < 411.4285714285714",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 16321,
+            "selection": "DISTANCE >= 205.71428571428567 AND DISTANCE < 399.99999999999994",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 16361,
+            "selection": "DISTANCE >= 194.28571428571428 AND DISTANCE < 388.57142857142856",
+            "metadata": {
+                "brush_id": 1
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29330,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 205.71428571428572",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29347,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 217.14285714285714",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29367,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 217.14285714285714",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29377,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 228.57142857142858",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29396,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 240",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29419,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 240",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29428,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 251.42857142857144",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29451,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 262.8571428571429",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29470,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 274.2857142857143",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29492,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 274.2857142857143",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29512,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 285.7142857142857",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29530,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 285.7142857142857",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29545,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 297.14285714285717",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29562,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 297.14285714285717",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29578,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 297.14285714285717",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29613,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 308.57142857142856",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29634,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 308.57142857142856",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29645,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 320",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29666,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 320",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29729,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 320",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29750,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 331.42857142857144",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29778,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 331.42857142857144",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29797,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 342.8571428571429",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29821,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 354.2857142857143",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29838,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 354.2857142857143",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29923,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 365.7142857142857",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 29961,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 365.7142857142857",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 30012,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 365.7142857142857",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 30139,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 377.14285714285717",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 30155,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 377.14285714285717",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 30177,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 377.14285714285717",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 30251,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 388.57142857142856",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 30269,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 388.57142857142856",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 30300,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 388.57142857142856",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 30347,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 388.57142857142856",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 30395,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 400",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 30450,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 411.42857142857144",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 30471,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 411.42857142857144",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 31073,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 411.42857142857144",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 31083,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 400",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 31100,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 400",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "DISTANCE",
+            "time": 32156,
+            "selection": "DISTANCE >= 205.71428571428572 AND DISTANCE < 400",
+            "metadata": {
+                "brush_id": 2
+            }
+        },
+        {
+            "name": "ARR_DELAY",
+            "time": 35932,
+            "selection": "ARR_DELAY >= -9.485714285714286 AND ARR_DELAY < -9.485714285714286",
+            "metadata": {
+                "brush_id": 3
+            }
+        },
+        {
+            "name": "ARR_DELAY",
+            "time": 35961,
+            "selection": "ARR_DELAY >= -9.485714285714286 AND ARR_DELAY < -9.485714285714286",
+            "metadata": {
+                "brush_id": 3
+            }
+        },
+        {
+            "name": "ARR_DELAY",
+            "time": 35978,
+            "selection": "ARR_DELAY >= -9.257142857142858 AND ARR_DELAY < -9.485714285714286",
+            "metadata": {
+                "brush_id": 3
+            }
+        },
+        {
+            "name": "ARR_DELAY",
+            "time": 35997,
+            "selection": "ARR_DELAY >= -9.028571428571428 AND ARR_DELAY < -9.485714285714286",
+            "metadata": {
+                "brush_id": 3
+            }
+        },
+        {
+            "name": "ARR_DELAY",
+            "time": 36012,
+            "selection": "ARR_DELAY >= -8.342857142857143 AND ARR_DELAY < -9.485714285714286",
+            "metadata": {
+                "brush_id": 3
+            }
+        }
+    ]
+}

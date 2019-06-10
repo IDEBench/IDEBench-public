@@ -1,4 +1,6 @@
 import os
+import logging
+logger = logging.getLogger("idebench")
 
 class Schema:
     
@@ -36,11 +38,10 @@ class Schema:
             for m_idx, mapping in enumerate(dim_tbl["mapping"]):
                 for f_idx, field in enumerate(mapping["fromFields"]):
                     if field == field_name:
-                        print("found")
                         tbl_alias = "%s%s" % (dim_tbl["name"], m_idx)
                         tbl_as = "%s AS %s" % (dim_tbl["name"], tbl_alias)
                         if dim_tbl["name"] == "tbl_carriers":
-                            print("aaaaa")
+                            logger.info("exiting")
                             os._exit()
                         return ("%s.%s" % (tbl_alias, dim_tbl["columns"][f_idx])), tbl_as
 

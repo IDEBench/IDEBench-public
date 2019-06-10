@@ -5,6 +5,7 @@ import time
 import hashlib
 import multiprocessing
 import statistics
+from collections import OrderedDict
 import numpy as np
 import os
 from common.schema import Schema
@@ -15,6 +16,16 @@ from optparse import OptionParser
 from scipy import spatial
 import glob
 from os.path import basename
+import logging
+from evaluator import Evaluator
+from common import util
+
+logging.basicConfig(filename='output.log', level=logging.INFO)
+logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
+consoleHandler = logging.StreamHandler()
+consoleHandler.setFormatter(logFormatter)
+logger = logging.getLogger("idebench")
+logger.addHandler(consoleHandler)
 
 class IDEBench:
 
@@ -43,11 +54,15 @@ class IDEBench:
         parser.add_option("--groundtruth", dest="groundtruth", action="store_true", help="If set computes the ground-truth for the specified workflow", default=False)
 
         (self.options, args) = parser.parse_args()
+        
+        self.workflow_start_time = -1
+
+        self.evaluator = Evaluator(self.get_config_hash())
 
         if not self.options.config:
             
             if self.options.create_report:
-                self.create_report()
+                self.evaluator.create_report()
                 return
 
             if not self.options.driver_name:
@@ -80,7 +95,8 @@ class IDEBench:
                 
                 self.run()
             elif self.options.evaluate:
-                self.evaluate(self.get_config_hash())
+                pass
+                self.evaluator.evaluate(self.get_config_hash())
         else:
 
             with open(self.options.config) as f:
@@ -121,15 +137,18 @@ class IDEBench:
                                                     self.run()
 
                                                 if self.options.evaluate:
-                                                    self.evaluate(self.get_config_hash())
+                                                    self.evaluator.evaluate(self.get_config_hash())
 
     def setup(self, driver_arg = None):
+        logger.info("loading schema")
         with open(self.get_schema_path()) as f:
             self.schema = Schema(json.load(f), self.options.settings_normalized)
 
+        logger.info("loading driver")
         module = importlib.import_module("drivers." +  self.options.driver_name)
         self.driver = getattr(module, "IDEBenchDriver")()
 
+        logger.info("initializing driver")
         try:
             self.driver.init(self.options, self.schema, driver_arg)
         except AttributeError:
@@ -137,24 +156,39 @@ class IDEBench:
 
     def run(self):
 
+        self.vizgraph = VizGraph()
+        with open(self.get_workflow_path()) as f:
+            json_data = json.load(f)
+            for s in json_data["setup"]:
+                self.vizgraph.add_viz(s)
+
+            for s in json_data["setup"]:
+               self.vizgraph.apply_interaction(Operation(s))
+
+            self.workflow_interactions = json_data["interactions"]
+
+        self.operation_results = OrderedDict({ "args": vars(self.options), "results": OrderedDict() })
+        self.current_interaction_index = 0
+        self.current_vizrequest_index = 0
+
         try:
+            logger.info("calling 'workflow_start' on driver")
             self.driver.workflow_start()
         except AttributeError:
             pass
         
+        interaction_index = 0
+        while interaction_index < len(self.workflow_interactions):
+            self.process_interaction(interaction_index)
+            interaction_index +=1
+       
+        self.end_run()
 
-        with open(self.get_workflow_path()) as f:
-            self.workflow_interactions = json.load(f)["interactions"]
-
-        self.vizgraph = VizGraph()
-        self.operation_results = { "args": vars(self.options), "results": {} }
-        self.current_interaction_index = 0
-        self.current_vizrequest_index = 0
-        self.process_interaction(0)
 
     def end_run(self):
-
+        logger.info("done processing interactions")
         try:
+            logger.info("calling 'workflow_end' on driver")
             self.driver.workflow_end()
         except AttributeError:
             pass
@@ -162,34 +196,27 @@ class IDEBench:
         path = "results/%s.json" % (self.get_config_hash())
         
         if not self.options.groundtruth:
+            logger.info("saving results to %s" % path)
             with open(path, "w") as fp:
-                json.dump(self.operation_results, fp)
+                json.dump(self.operation_results, fp, indent=4)
 
         if self.options.groundtruth:
             path = "data/%s/groundtruths/%s_%s.json" % (self.options.settings_dataset, self.options.settings_size, self.options.settings_workflow)
             with open(path, "w") as fp:
-                json.dump(self.operation_results, fp)
+                json.dump(self.operation_results, fp, indent=4)
     
     def process_interaction(self, interaction_index):
-        print("processing!")
-        if interaction_index < 0 or interaction_index >= len(self.workflow_interactions):
-            print("reached end of interactions")
-            self.end_run()
-            return
-
-        print("thinking...")
-        time.sleep(self.options.settings_thinktime / 1000)
-
+        logger.info("interaction %i" % interaction_index)
         interaction = self.workflow_interactions[interaction_index]
+        next_interaction = self.workflow_interactions[interaction_index + 1] if interaction_index +1 < len(self.workflow_interactions) else None
         vizs_to_request = self.vizgraph.apply_interaction(Operation(interaction))
-
+        expected_start_time = interaction["time"]
+        print(expected_start_time)
+        
         viz_requests = []
         for viz in vizs_to_request:
-            viz_requests.append(VizRequest(self.current_vizrequest_index, self.current_interaction_index, viz))
+            viz_requests.append(VizRequest(self.current_vizrequest_index, self.current_interaction_index, expected_start_time, viz))
             self.current_vizrequest_index += 1
-
-        #if interaction_index == 0:
-        #    self.result_queue = multiprocessing.Queue()
 
         # TODO: document this feature
         try:
@@ -214,29 +241,37 @@ class IDEBench:
 
         for proc in procs:
             proc.join()
+        
+        if "time" in interaction and next_interaction:
+            think_time = next_interaction["time"] - interaction["time"]
+        else:
+            think_time = self.options.settings_thinktime
+        logger.info("interaction delay: %i ms" % think_time)
+
+        if not self.options.groundtruth:
+            time.sleep(think_time / 1000)
             
         self.deliver_viz_request(resultlist)
         self.current_interaction_index += 1
-        self.process_interaction(self.current_interaction_index)
-
 
     def deliver_viz_request(self, viz_requests):
 
-        for viz_request in viz_requests:
-            if len(viz_request.result.keys()) == 0:
-                pass
-                #print(" ############## No results delivered! #############")
+
+        if len(self.operation_results["results"]) == 0 :
+            self.workflow_start_time = sorted(viz_requests, key=lambda x: x.operation_id)[0].start_time
             
+        for viz_request in viz_requests:            
             operation_result = {}
             operation_result["id"] = viz_request.operation_id
             operation_result["sql"] = viz_request.viz.get_computed_filter_as_sql(self.schema)
             operation_result["viz_name"] = viz_request.viz.name
-            operation_result["parent_operation_id"] = viz_request.parent_operation_id
-            operation_result["start_time"] = viz_request.start_time
-            operation_result["end_time"] = viz_request.end_time
+            operation_result["event_id"] = viz_request.parent_operation_id
+            operation_result["expected_start_time"] = viz_request.expected_start_time
+            operation_result["start_time"] = viz_request.start_time - self.workflow_start_time
+            operation_result["end_time"] = viz_request.end_time - self.workflow_start_time
             operation_result["time_violated"] = viz_request.timedout
-            operation_result["t_pause"] = viz_request.t_pause
-            operation_result["t_start"] = viz_request.t_start
+            #operation_result["t_pause"] = viz_request.t_pause
+            #operation_result["t_start"] = viz_request.t_start
             operation_result["progress"] = viz_request.progress
             operation_result["output"] = viz_request.result
             operation_result["margins"] = viz_request.margins
@@ -265,8 +300,6 @@ class IDEBench:
                 self.operation_results["results"][viz_request.operation_id] = operation_result
             
             viz_request.delivered = True
-
-        #self.driver.request_vizs(self.viz_requests)
     
     def get_config_hash(self):
         o = self.options
@@ -277,270 +310,7 @@ class IDEBench:
         return "data/%s/sample.json" % (self.options.settings_dataset)
 
     def get_workflow_path(self):
-        return "data/%s/workflows/%s.json" % (self.options.settings_dataset, self.options.settings_workflow)
-
-    def compute_viz_similarity(self, viz_gt, viz):
-
-        if len(viz.keys()) == 0 and len(viz_gt.keys()) == 0:
-            return 1
-
-        if len(viz_gt.keys()) == 0 and len(viz.keys()) > 0:
-            raise Exception()
-
-        if len(viz_gt.keys()) > 0 and len(viz.keys()) == 0:
-            return 0
-
-        for gt_key in viz_gt.keys():
-            if gt_key not in viz:
-                viz[gt_key] = 0
-
-        viz_gt_vals = []
-        viz_vals = []
-        for gt_key in viz_gt.keys():
-            if isinstance(viz_gt[gt_key], list):
-                viz_gt_vals.append(viz_gt[gt_key][0])
-            else:
-                viz_gt_vals.append(viz_gt[gt_key])
-            
-            if isinstance(viz[gt_key], list):
-                viz_vals.append(viz[gt_key][0])
-            else:
-                viz_vals.append(viz[gt_key])
-     
-        viz_gt_vals = np.array(viz_gt_vals).astype(float)
-        viz_vals = np.array(viz_vals).astype(float)
-        
-
-
-        #viz_gt_vals = self.normalize(viz_gt_vals)
-        #viz_vals = self.normalize(viz_vals)
-
-        if np.isnan(viz_gt_vals).any():
-            raise Exception()
-
-        if np.isnan(viz_vals).any():
-            raise Exception()
-
-
-        #score = np.dot(viz_gt_vals, viz_vals)/ ( np.sqrt(np.sum(np.square(viz_gt_vals))) * np.sqrt(np.sum(np.square(viz_vals))) )
-        np.seterr(all='raise')
-        try:
-            score = 1 - spatial.distance.cosine(viz_gt_vals, viz_vals)
-        except:
-            return 0
-        return score if not np.isnan(score) else 0
-        
-    def normalize(self, v):
-        norm=np.linalg.norm(v, ord=1)
-        if norm==0:
-            norm=np.finfo(v.dtype).eps
-        return v/norm
-
-    def evaluate(self, config_hash):
-        print("evaluate")
-        result_json = None
-        try:
-            with open("results/%s.json" % config_hash, "r") as json_data:
-                result_json = json.load(json_data)
-        except:
-            print("couldn't load file %s" % ("results/%s.json" % config_hash))
-            return
-        
-        workflow = result_json["args"]["settings_workflow"]
-        dataset = result_json["args"]["settings_dataset"]
-        size = result_json["args"]["settings_size"]
-        time_requirement = result_json["args"]["settings_time_requirement"]
-        
-        with open("data/%s/groundtruths/%s_%s.json" % (dataset, size, workflow), "r") as json_data:
-            groundtruths = json.load(json_data)["results"]
-        
-        with open("reports/%s.csv" % config_hash, 'w') as fp:
-            w = csv.DictWriter(fp, [
-                                    "operation_id",
-                                    "config_hash",
-                                    "interaction_id",
-                                    "dataset",
-                                    "size",
-                                    "viz_name",
-                                    "interface",
-                                    "think_time",
-                                    "time_requirement",
-                                    "t_start",
-                                    "t_pause",
-                                    "workflow",
-                                    "start_time",
-                                    "end_time",
-                                    "duration",
-                                    "progress",
-                                    "time_violated",
-                                    "num_binning_dimensions",
-                                    "binning_type",                                    
-                                    "has_invalid_bins",
-                                    "num_bins_out_of_margin",
-                                    "num_bins_delivered",
-                                    "num_bins_in_gt",
-                                    "missing_bins",
-                                    "dissimilarity",
-                                    "num_aggregates_per_bin",                                    
-                                    "aggregate_type",
-                                    "bias",
-                                    "rel_error_avg",
-                                    "rel_error_stdev",
-                                    "rel_error_min",
-                                    "rel_error_max",
-                                    "margin_avg",
-                                    "margin_stdev",
-                                    "margin_min",
-                                    "margin_max",
-                                    "margin_ratio"], delimiter=",", lineterminator="\n")
-            w.writeheader()
-
-            operations = result_json["results"]
-
-
-            for op_number in operations.keys():
-                
-                gt_output = groundtruths[op_number]["output"]
-                operation = operations[op_number]
-
-                margins = []
-                rel_errors = []
-                forecast_values = []
-                actual_values = []
-                out_of_margin_count = 0
-
-                for gt_bin_identifier, gt_aggregate_results in gt_output.items():                    
-
-                    if gt_bin_identifier in operation["output"]:
-           
-                        for agg_bin_result_index, agg_bin_result in enumerate(operation["output"][gt_bin_identifier]):
-                            rel_error = None
-                            op_result = operation["output"][gt_bin_identifier][agg_bin_result_index]
-                            gt_result = gt_aggregate_results[agg_bin_result_index]
-
-                            if abs(gt_result) > 0:
-                                rel_error = abs(op_result - gt_result)/abs(gt_result)
-                                if rel_error > 1e-5:
-                                    pass
-                                rel_errors.append(rel_error)
-                            else:
-                                print("ignoring zero in groundtruth")
-                                #print(result_json)
-                                #os._exit(1)
-                           
-                            forecast_values.append(op_result)
-                            actual_values.append(gt_result)
-                            
-                            if operation["margins"] and gt_bin_identifier in operation["margins"]:
-                                op_margin = float(operation["margins"][gt_bin_identifier][agg_bin_result_index])
-          
-                                if np.isnan(op_margin) or np.isinf(op_margin) or abs(op_margin) > 1000000:
-                                    #print(op_margin)
-                                    if os.path.exists("./margin_errors"):
-                                        append_write = 'a' # append if already exists
-                                    else:
-                                        append_write = 'w' # make a new file if not
-                                    with open("./margin_errors", append_write) as ffff:
-                                        ffff.writelines(self.options.settings_workflow + "\n" + str(operation["margins"][gt_bin_identifier][agg_bin_result_index]) + "\n")
-
-                                elif gt_result + 1e-6 < op_result - abs(op_result * op_margin) or gt_result - 1e-6 > op_result + abs(op_result * op_margin):
-                                    out_of_margin_count += 1
-                                    margins.append(abs(op_margin))
-                                else:
-                                    margins.append(abs(op_margin))                                       
-                
-                     
-                    else:                       
-                        pass
-                        #print("nx")
-                         # add error as many times as a bin was expected!
-                        #rel_errors.extend( [ 1 for n in range(len(gt_aggregate_results)) ] )
-                        
-                # invalid bins test
-                has_invalid_bins = False
-                num_invalid = 0
-                inv = []
-                
-                for kk in operation["output"].keys():
-                    if kk not in gt_output:
-                        has_invalid_bins = True
-                        num_invalid += 1
-                        inv.append(kk)
-           
-                        print(self.options.settings_workflow)
-                        print(str(operation["id"]))
-                        print("invalid key:" + kk)
-                        print(operation["sql"])
-                        print(operation["output"])
-                        os._exit(0)
-                
-                args = result_json["args"]
-
-                missing_bins = 1 - len(operation["output"].keys()) / len(gt_output.keys()) if len(gt_output.keys()) > 0  else 0
-                op_eval_result = {}
-                op_eval_result["operation_id"] = operation["id"]
-                op_eval_result["config_hash"] = self.get_config_hash()
-                op_eval_result["interaction_id"] = operation["parent_operation_id"]
-                op_eval_result["dataset"] = args["settings_dataset"]
-                op_eval_result["size"] = args["settings_size"]
-                op_eval_result["viz_name"] = operation["viz_name"]
-                op_eval_result["think_time"] = args["settings_thinktime"]
-                op_eval_result["time_requirement"] = args["settings_time_requirement"]
-                op_eval_result["interface"] = args["driver_name"]
-                op_eval_result["workflow"] = args["settings_workflow"]
-                op_eval_result["start_time"] = operation["start_time"]
-                op_eval_result["end_time"] = operation["end_time"]
-                op_eval_result["t_pause"] = operation["t_pause"] if "t_pause" in operation else 0
-                op_eval_result["t_start"] = operation["t_start"] if "t_start" in operation else 0
-                op_eval_result["duration"] = operation["end_time"] - operation["start_time"]
-                
-                if "time_violated" in operation:
-                    op_eval_result["time_violated"] = operation["time_violated"]
-                elif "timedout" in operation:
-                    op_eval_result["time_violated"] = operation["timedout"]
-                else:
-                    raise Exception()
-
-                op_eval_result["has_invalid_bins"] = has_invalid_bins
-                op_eval_result["binning_type"] = operation["binning_type"]
-                op_eval_result["aggregate_type"] = operation["aggregate_type"]
-                op_eval_result["num_bins_delivered"] = len(operation["output"].keys())
-                op_eval_result["num_bins_in_gt"] = len(gt_output.items())
-                op_eval_result["missing_bins"] = "%.5f" %  missing_bins
-
-                op_eval_result["dissimilarity"] = "%.5f" % (1- self.compute_viz_similarity(gt_output, operation["output"]))
-
-                op_eval_result["num_bins_out_of_margin"] = "%i" % out_of_margin_count
-                op_eval_result["num_aggregates_per_bin"] = operation["num_aggregates_per_bin"]       
-                op_eval_result["num_binning_dimensions"] = operation["num_binning_dimensions"]     
-                op_eval_result["progress"] = "%.5f" %  operation["progress"]
-                op_eval_result["bias"] = "%.5f" % (sum(forecast_values) / sum(actual_values) - 1)if len(actual_values) > 0  else 0
-                op_eval_result["rel_error_stdev"] = "%.5f" % statistics.stdev(rel_errors) if len(rel_errors) > 1 else 0.0
-                op_eval_result["rel_error_min"] = "%.5f" % min(rel_errors) if len(rel_errors) > 0  else 0
-                op_eval_result["rel_error_max"] = "%.5f" % max(rel_errors) if len(rel_errors) > 0  else 0
-                op_eval_result["rel_error_avg"] = "%.5f" % float(sum(rel_errors) / float(len(rel_errors))) if len(rel_errors) > 0  else 0
-                op_eval_result["margin_stdev"] = "%.5f" % statistics.stdev(margins) if len(margins) > 1 else 0.0
-                op_eval_result["margin_min"] = "%.5f" % min(margins) if len(margins) > 0 else 0.0
-                op_eval_result["margin_max"] = "%.5f" % max(margins) if len(margins) > 0 else 0.0
-                op_eval_result["margin_avg"] = "%.5f" % float(sum(margins) / float(len(margins))) if len(margins) > 0 else 0.0
-                op_eval_result["margin_ratio"] = "%.5f" % float(len(operation["margins"]) / len(operation["output"])) if operation["margins"] and len(operation["output"]) > 0 else  1
-                w.writerow(op_eval_result)
-
-    def create_report(self):
-        header_saved = False
-        interesting_files = glob.glob("reports/*.csv") 
-        with open('./full_report.csv','w') as fout:
-            for filename in interesting_files:
-                print(filename)
-                with open(filename) as fin:
-                    header = next(fin)
-                    if not header_saved:
-                        print(header)
-                        fout.write(header)
-                        header_saved = True
-                    for line in fin:
-                        fout.write(line)
-        print("saved report")
+        return "data/%s/workflows/%s.json" % (self.options.settings_dataset, self.options.settings_workflow)   
 
 
 def assure_path_exists(path):

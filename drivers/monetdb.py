@@ -5,30 +5,33 @@ import csv
 import json
 import os
 import multiprocessing
+import logging
 from subprocess import call
 from common import util
 
+logger = logging.getLogger("idebench")
 class IDEBenchDriver:
 
     def init(self, options, schema, driver_arg):
+        self.connection = None
         pass
 
     def create_connection(self):
-        connection = pymonetdb.connect(username="monetdb", password="monetdb", hostname="localhost", port=50000, database="demo")
-        cursor = connection.cursor()
-        return connection, cursor
+        if not self.connection:
+            self.connection = pymonetdb.connect(username="monetdb", password="monetdb", hostname="localhost", port=50000, database="crossfilter")
+        cursor = self.connection.cursor()
+        return self.connection, cursor
 
     def process_request(self, viz_request, options, schema, result_queue):
-        print("processsing..." + str(viz_request.operation_id))
         viz = viz_request.viz
         sql_statement = viz.get_computed_filter_as_sql(schema)
         connection, cursor = self.create_connection()
         viz_request.start_time = util.get_current_ms_time()                
+        logger.info(sql_statement)
         cursor.execute(sql_statement)                
         data = cursor.fetchall() 
         viz_request.end_time = util.get_current_ms_time()
-        connection.close()
-
+        
         results = {}
         for row in data:
             keys = []

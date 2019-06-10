@@ -2,13 +2,19 @@ from collections import defaultdict
 from collections import deque
 from collections import OrderedDict
 from common.viz import Viz
-
+import logging
+logger = logging.getLogger("idebench")
 
 class VizGraph(object):
 
     def __init__(self):
         self._graph = OrderedDict()
         self.nodes = set()
+    
+    def add_viz(self, data):
+        if data["name"] not in self.get_nodes_dict():
+            viz = Viz.createFromDict(data)
+            self.nodes.add(viz)
 
     def apply_interaction(self, operation):
         # initialize a set of vizs that are affected by this operation
@@ -31,12 +37,14 @@ class VizGraph(object):
         if operation.has_source():
             source = operation.get_source()
             if len(source) > 0:
+               
                 # find all current sources add check which ones have been added/removed
                 old_sources = current_viz.get_source_vizs()
                 new_sources = operation.get_source_vizs()
                 sources_removed = old_sources - new_sources
-                sources_remained = new_sources.intersection(old_sources)
-                sources_added = new_sources - sources_remained - sources_removed
+               
+                #sources_remained = new_sources.intersection(old_sources)
+                sources_added = new_sources - sources_removed
 
                 for src in sources_removed:
                     self.remove_connection(viz_dict[src], current_viz)
@@ -59,11 +67,15 @@ class VizGraph(object):
 
         # parse selection
         if operation.has_selection():
-            #print("\t updating selection")
             current_viz.selection = operation.get_selection()
-
             # find other vizs affected by this selection
-            vizs_to_request.update(self.update_affected_vizs(current_viz, viz_dict))
+            affected_vizs = self.update_affected_vizs(current_viz, viz_dict)
+            
+            # dont update viz where selection was made
+            if current_viz in affected_vizs:
+                del affected_vizs[current_viz]
+
+            vizs_to_request.update()
             
         current_viz.set_computed_filter(self.compute_filter(current_viz, viz_dict))
         
@@ -72,7 +84,7 @@ class VizGraph(object):
         #for viz_to_request in vizs_to_request.keys():
         #   self.parent_operations[viz_to_request] = index
 
-        return vizs_to_request.keys()
+        return affected_vizs.keys()
         #self.viz_requests = []
         #for viz in vizs_to_request.keys():
         #    self.operation_count += 1
@@ -87,39 +99,35 @@ class VizGraph(object):
             computed_filter = self.compute_filter(viz, viz_dict)
             viz.set_computed_filter(computed_filter)
             vizs_to_request[viz] = True
-
         return vizs_to_request
 
     def compute_filter(self, viz, viz_dict):
-
+        computed_vizs = set()
         def compute_filter_inner(start, selections, filter_strs, source_strs):
+            computed_vizs.add(start)
 
             if start.has_filter():
-                #print("filter: %s", start.filter)
                 filter_strs.append(start.filter)
 
             if start.selection and not start.selection == "":
-                #print("selection: %s" % start.selection)
                 selections[start.name] = start.selection
 
             if not start.source or start.source == "":
                 return
-                
 
             source_strs.extend(start.get_source_vizs())
             sources = start.get_source_vizs()
 
             for src in sources:
-                compute_filter_inner(viz_dict[src], selections, filter_strs, source_strs)
+                if viz_dict[src] not in computed_vizs:
+                    compute_filter_inner(viz_dict[src], selections, filter_strs, source_strs)
 
         source_strs_list = []
         selections = {}
         filters = []
         compute_filter_inner(viz, selections, filters, source_strs_list)
-        
-        source_strs = " and ".join(source_strs_list)
-        
-        for src in source_strs_list:
+        source_strs = " and ".join(list(set(source_strs_list)))
+        for src in list(set(source_strs_list)):
             if src in selections:                
                 source_strs = source_strs.replace(src, selections[src])
             else:
@@ -173,9 +181,9 @@ class VizGraph(object):
         queue.append(start)
         result = []
         while queue:
-            node = queue.popleft()
-            result.append(node)
-            if node in self._graph:
+            node = queue.popleft()            
+            if node in self._graph and node not in result:
                 for n in self._graph[node].keys():
                     queue.append(n)
+            result.append(node)
         return result[1:]

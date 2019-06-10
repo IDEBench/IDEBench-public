@@ -14,13 +14,16 @@ from optparse import OptionParser
 import time
 import os
 from collections import OrderedDict
+import logging
 
 current_milli_time = lambda: int(round(time.time() * 1000))
+logger = logging.getLogger("idebench")
 
 class DataGen:
 
     def __init__(self):
         
+        logger.info("wowow")
         parser = OptionParser()
         parser.add_option("-r", "--random-seed", dest="seed", action="store", type=int, help="Random seed", default=41001)
         parser.add_option("--normalize", dest="normalize", action="store", help="Size of the dataset in MB")
@@ -58,11 +61,11 @@ class DataGen:
 
         for chunk_id, chunk in enumerate(pd.read_csv(self.options.normalize, chunksize=100000, header=0)):
             all_from_fields = []
-            #print("new chunk")
+
             for tbl in tables:
                 
                 table_df = table_dfs[tbl["name"]]
-                #print(len(table_df))
+
                 for mapping in tbl["mapping"]:
                     xx = chunk[mapping["fromFields"]]
                     xx.columns = tbl["columns"]
@@ -79,16 +82,15 @@ class DataGen:
                 
 
                 table_df["tmp_ID"] = table_df.index
-                #print("a")
+
                 count = 0
                 for mapping in tbl["mapping"]:
                     all_from_fields.extend(mapping["fromFields"])
-                    #print("b")
+
                     boo = len(chunk)
                     beforechunk = chunk
                     chunk = pd.merge(chunk, table_df, how="left", left_on=mapping["fromFields"], right_on=tbl["columns"])
-                    #print(chunk)
-                    #os._exit(0)
+
                     if len(chunk) > boo:
                         print("EEORR")
                         print(boo)
@@ -99,30 +101,25 @@ class DataGen:
                         print(beforechunk)
                         print(chunk)
                         os._exit(0)
-                    #print(len(chunk))
-                    #print("c")
+
        
                     
                     chunk = chunk.rename(columns={'tmp_ID': mapping["fk"]})
-                    #print("d")
-                    
-                    #print(tbl["columns"])
+
                     for c in tbl["columns"]:
-                        #print(c)
+
                         del chunk[c]
-                    #print("e")
-                    #print(chunk)
+
                 
             
             for c in all_from_fields:
                 del chunk[c]
-            #print("f")
-            #print(len(chunk))
+
             if chunk_id == 0:       
                 chunk.to_csv(self.options.output, index=False, mode="w")
             else:
                 chunk.to_csv(self.options.output, index=False, header=False, mode="a")
-            #print("g")
+
 
 
     def generate_data(self):
@@ -178,11 +175,10 @@ class DataGen:
         st = current_milli_time()
         # process all batches
         for batch_i in range(num_batches):
-            print(" %i/%i batches processed." % (batch_i, num_batches))
+            logger.info(" %i/%i batches processed." % (batch_i, num_batches))
             self.process_batch(batch_i)
 
-        print("done.")
-        print( (current_milli_time()-st) )
+        logger.info("done. took %i " %  (current_milli_time() - st))
 
     def process_batch(self, batch_number):
 

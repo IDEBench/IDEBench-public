@@ -1,0 +1,33 @@
+{
+    "tables": {
+        "fact": {
+            "name": "tbl_flights",
+            "fields": [
+                {
+                    "field": "DEP_TIME",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "ARR_TIME",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "DEP_DELAY",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "ARR_DELAY",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "AIR_TIME",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "DISTANCE",
+                    "type": "quantitative"
+                }
+            ]
+        }
+    }
+}

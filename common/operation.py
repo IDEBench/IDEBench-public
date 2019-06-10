@@ -31,4 +31,3 @@ class Operation:
     def get_source_vizs(self):
         sources = self.get_source().replace("(", "").replace(")", "").replace("and", "").replace("or", "").split(" ")
         return set([s for s in sources if not s == "" ])
-
