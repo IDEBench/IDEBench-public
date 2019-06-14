@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-
-```
-python3 convert.py --views-file data/views.json --brush-file data/brush.csv --output w.json
-```
-
-```
-python3 idebench.py --driver-name monetdb --settings-dataset crossfilter --settings-size 1GB --settings-workflow workflow_small --run
-```
-=======
 ### Using Crossfilter Brush Logs in IDEBench
 
 1. Convert the brush logs to IDEBench workflows (there is an example in `data/crossfilter/logconverter`)
@@ -24,4 +14,3 @@ python3 idebench.py --driver-name monetdb --settings-dataset crossfilter --setti
 ```
 python3 idebench.py --driver-name monetdb --settings-dataset crossfilter --settings-size 1GB --settings-workflow workflow --run
 ```
->>>>>>> afeb22b846d9b7e52056c8bdfb68a172c562ddd7
