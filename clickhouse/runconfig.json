@@ -1,0 +1,11 @@
+{
+    "driver-names": ["clickhouse", "clickhouse_online"],
+    "driver-args": [[]],
+    "settings-datasets": ["flights"],
+    "settings-workflows": ["mixed_0", "mixed_1", "mixed_2", "mixed_3", "mixed_4", "mixed_5", "mixed_6", "mixed_7", "mixed_8", "mixed_9"],
+    "settings-sizes": ["500k"],
+    "settings-thinktimes": [1000],
+    "settings-time-requirements": [500, 1000, 3000, 5000, 10000],
+    "settings-confidence-levels": [95],
+    "settings-normalized": false
+}
